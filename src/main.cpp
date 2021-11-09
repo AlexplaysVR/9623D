@@ -1,6 +1,21 @@
 #include "main.h"
 #include "autoSelect/selection.h"
 
+//Port Definitions
+
+//Motors
+#define FR_MOTOR_PORT 20
+#define FL_MOTOR_PORT 19
+#define BR_MOTOR_PORT 12
+#define BL_MOTOR_PORT 11
+#define ARM_MOTOR_PORT 3
+#define CLAW_MOTOR_PORT 8
+
+//Controller Inputs
+#define TOP_RIGHT_SHOLDER DIGITAL_R1
+#define BOTTOM_RIGHT_SHOLDER DIGITAL_R2
+#define TOP_LEFT_SHOLDER DIGITAL_L1
+#define BOTTOM_LEFT_SHOLDER DIGITAL_L2
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -93,6 +108,37 @@ if(selector::auton == 1){
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	//Pros Device Control Initialization
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Motor fr_motor(FR_MOTOR_PORT, true);
+	pros::Motor fl_motor(FL_MOTOR_PORT);
+	pros::Motor rr_motor(BR_MOTOR_PORT, true);
+	pros::Motor rl_motor(BL_MOTOR_PORT);
+	pros::Motor arm_motor(ARM_MOTOR_PORT);
+	pros::Motor claw_motor(CLAW_MOTOR_PORT);
+
+			//Motor Break Modes
+	arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	claw_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	
+	while (true) {
+		 	//Strafe Main Control
+		int turn = master.get_analog(ANALOG_RIGHT_X);
+		int power = master.get_analog(ANALOG_LEFT_Y);
+		int strafe = master.get_analog(ANALOG_LEFT_X);
+			//Maths
+		int turnreversed = turn;
+		int straferevered = strafe;
+		int fl = power + turnreversed + straferevered;
+		int rl = power + turnreversed - straferevered;
+		int fr = power - turnreversed - straferevered;
+		int rr = power - turnreversed + straferevered;
+
+		fl_motor.move(fl);
+		fr_motor.move(fr);
+		rl_motor.move(rl);
+		rr_motor.move(rr);
 	}
+
+
 }
