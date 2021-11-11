@@ -8,7 +8,8 @@
 #define FL_MOTOR_PORT 19
 #define BR_MOTOR_PORT 12
 #define BL_MOTOR_PORT 11
-#define ARM_MOTOR_PORT 3
+#define LARM_MOTOR_PORT 3
+#define RARM_MOTOR_PORT 4
 #define CLAW_MOTOR_PORT 8
 
 //Controller Inputs
@@ -114,11 +115,13 @@ void opcontrol() {
 	pros::Motor fl_motor(FL_MOTOR_PORT);
 	pros::Motor rr_motor(BR_MOTOR_PORT, true);
 	pros::Motor rl_motor(BL_MOTOR_PORT);
-	pros::Motor arm_motor(ARM_MOTOR_PORT);
+	pros::Motor larm_motor(LARM_MOTOR_PORT);
+	pros::Motor rarm_motor(RARM_MOTOR_PORT);
 	pros::Motor claw_motor(CLAW_MOTOR_PORT);
 
 			//Motor Break Modes
-	arm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	larm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rarm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	claw_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	
 	while (true) {
@@ -138,6 +141,35 @@ void opcontrol() {
 		fr_motor.move(fr);
 		rl_motor.move(rl);
 		rr_motor.move(rr);
+	
+			//Arm Control
+		if(master.get_digital(TOP_LEFT_SHOLDER)) {
+			larm_motor.move_velocity(100);
+			rarm_motor.move_velocity(100);
+		}
+
+		else if(master.get_digital(BOTTOM_LEFT_SHOLDER)) {
+			larm_motor.move_velocity(-100);
+			rarm_motor.move_velocity(-100);
+		}
+
+		else {
+			larm_motor.move_velocity(0);
+			rarm_motor.move_velocity(0);
+		}
+			//Claw Control
+		if(master.get_digital(TOP_RIGHT_SHOLDER)) {
+			claw_motor.move_velocity(100);
+		}
+
+		else if(master.get_digital(BOTTOM_RIGHT_SHOLDER)) {
+			claw_motor.move_velocity(-100);
+		}
+
+		else {
+			claw_motor.move_velocity(0);
+		}
+	
 	}
 
 
