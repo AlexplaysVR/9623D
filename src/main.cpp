@@ -8,9 +8,9 @@
 #define FL_MOTOR_PORT 19
 #define BR_MOTOR_PORT 12
 #define BL_MOTOR_PORT 11
-#define LARM_MOTOR_PORT 3
-#define RARM_MOTOR_PORT 4
-#define CLAW_MOTOR_PORT 8
+#define LARM_MOTOR_PORT 14
+#define RARM_MOTOR_PORT 15
+#define CLAW_MOTOR_PORT 13
 
 //Controller Inputs
 #define TOP_RIGHT_SHOLDER DIGITAL_R1
@@ -115,7 +115,7 @@ void opcontrol() {
 	pros::Motor fl_motor(FL_MOTOR_PORT);
 	pros::Motor rr_motor(BR_MOTOR_PORT, true);
 	pros::Motor rl_motor(BL_MOTOR_PORT);
-	pros::Motor larm_motor(LARM_MOTOR_PORT);
+	pros::Motor larm_motor(LARM_MOTOR_PORT, true);
 	pros::Motor rarm_motor(RARM_MOTOR_PORT);
 	pros::Motor claw_motor(CLAW_MOTOR_PORT);
 
