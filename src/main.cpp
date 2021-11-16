@@ -110,7 +110,7 @@ if(selector::auton == 1){
  */
 void opcontrol() {
 	//Pros Device Control Initialization
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Controller master(CONTROLLER_MASTER);
 	pros::Motor fr_motor(FR_MOTOR_PORT, true);
 	pros::Motor fl_motor(FL_MOTOR_PORT);
 	pros::Motor rr_motor(BR_MOTOR_PORT, true);
@@ -120,9 +120,9 @@ void opcontrol() {
 	pros::Motor claw_motor(CLAW_MOTOR_PORT);
 
 			//Motor Break Modes
-	larm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	rarm_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	claw_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	larm_motor.set_brake_mode(MOTOR_BRAKE_HOLD);
+	rarm_motor.set_brake_mode(MOTOR_BRAKE_HOLD);
+	claw_motor.set_brake_mode(MOTOR_BRAKE_HOLD);
 	
 	while (true) {
 		 	//Strafe Main Control
